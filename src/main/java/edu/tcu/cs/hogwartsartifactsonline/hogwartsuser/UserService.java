@@ -2,12 +2,31 @@ package edu.tcu.cs.hogwartsartifactsonline.hogwartsuser;
 
 import edu.tcu.cs.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
+<<<<<<< HEAD
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+=======
+>>>>>>> main
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+<<<<<<< HEAD
+public class UserService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    private PasswordEncoder passwordEncoder;
+
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+=======
 public class UserService {
 
     private final UserRepository userRepository;
@@ -15,6 +34,7 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+>>>>>>> main
     }
 
     public List<HogwartsUser> findAll() {
@@ -27,7 +47,12 @@ public class UserService {
     }
 
     public HogwartsUser save(HogwartsUser newHogwartsUser) {
+<<<<<<< HEAD
+        // We NEED to encode plain text password before saving to the DB! TODO
+        newHogwartsUser.setPassword(this.passwordEncoder.encode(newHogwartsUser.getPassword()));
+=======
         // We NEED to encode plain password before saving to the DB! TODO
+>>>>>>> main
         return this.userRepository.save(newHogwartsUser);
     }
 
@@ -53,4 +78,14 @@ public class UserService {
         this.userRepository.deleteById(userId);
     }
 
+<<<<<<< HEAD
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.userRepository.findByUsername(username) // First, we need to find this user from database.
+                .map(hogwartsUser -> new MyUserPrincipal(hogwartsUser)) // If found, wrap the returned user instance in a MyUserPrincipal instance.
+                .orElseThrow(() -> new UsernameNotFoundException("username " + username + " is not found.")); // Otherwise, throw an exception.
+    }
+
+=======
+>>>>>>> main
 }
